@@ -206,17 +206,18 @@ def provide_towers_coverage(tower_indexes):
         # network. The values are transformed from 1 and 0 to true and
         # false
         for net in networks:
-            towers[operator_code[operator]][net] = t_f[df.at[index, net]]
+            towers[operator_code[operator]][net] = t_f[
+                df.at[index, net]]
 
     return towers
 
 
-def get_reduced_area(latitude, longitude, area=2):
-    ret = df.loc[(df['Latitude'] > (int(latitude) - area))
-                  & (df['Latitude'] < (int(latitude) + area))
-                  & (df['Longitude'] > (int(longitude) - area))
-                  & (df['Longitude'] < (int(longitude) + area))]
+def get_reduced_area(latitude, longitude, area=1):
+    ret = df.loc[(df['Latitude'] > (latitude - area))
+                 & (df['Latitude'] < (latitude + area))
+                 & (df['Longitude'] > (longitude - area))
+                 & (df['Longitude'] < (longitude + area))]
     if len(set(ret['Operateur'])) < 4:
-        get_reduced_area(latitude, longitude, area=area+1)
+        get_reduced_area(latitude, longitude, area=area + 1)
     else:
         return ret
