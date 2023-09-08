@@ -211,7 +211,7 @@ def provide_towers_coverage(tower_indexes):
     return towers
 
 
-def get_reduced_area(latitude, longitude, area=1):
+def get_reduced_area(latitude, longitude, area=2):
     ret = df.loc[(df['Latitude'] > (int(latitude) - area))
                   & (df['Latitude'] < (int(latitude) + area))
                   & (df['Longitude'] > (int(longitude) - area))
