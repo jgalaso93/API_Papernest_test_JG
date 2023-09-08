@@ -136,6 +136,8 @@ def locate_closer_towers(location):
     lat = location.latitude
     long = location.longitude
 
+    red_area = get_reduced_area(lat, long)
+
     # Since the process will look the minimal distance between two
     # point, the values start for 100 on all the operator cases, so the
     # true minimal will be smaller. The second value will be the index
@@ -147,7 +149,7 @@ def locate_closer_towers(location):
 
     # Per tower, we check if it is closer than the previous registered,
     # and in case it is, save it as the closer and its index.
-    for index, row in df.iterrows():
+    for index, row in red_area.iterrows():
         mn = mins[int(row['Operateur'])]
         d_lat = lat - row['Latitude']
         d_ln = long - row['Longitude']
@@ -207,3 +209,14 @@ def provide_towers_coverage(tower_indexes):
             towers[operator_code[operator]][net] = t_f[df.at[index, net]]
 
     return towers
+
+
+def get_reduced_area(latitude, longitude, area=1):
+    ret = df.loc[(df['Latitude'] > (int(latitude) - area))
+                  & (df['Latitude'] < (int(latitude) + area))
+                  & (df['Longitude'] > (int(longitude) - area))
+                  & (df['Longitude'] < (int(longitude) + area))]
+    if len(set(ret['Operateur'])) < 4:
+        get_reduced_area(latitude, longitude, area=area+1)
+    else:
+        return ret
