@@ -7,6 +7,25 @@ from utils.Locator import Locator
 
 
 class TowerManager:
+    """
+    Class to handle the towers of a given database. A location is
+    required in order to be able to manage said towers.
+
+    Parameters:
+    -----------
+    location: (utils.Locator)
+        A geolocation to manage the towers around the location
+
+    [OPTIONALS]
+    database: (pandas.DataFrame)
+        A database filled with towers in a particular way. A minimal
+        column check is run to ensure proper behaviour. Find more about
+        the restriction at check_database(). If none given the one
+        located on the database will be used.
+    network: (list of strings)
+        Networks that will be found on the coverage search process. If
+        none provided, the string: ['2G', '3G', '4G'] will be used
+    """
     def __init__(self, location, database=None, networks=None):
         # Check location and store it
         self.location = location

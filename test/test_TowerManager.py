@@ -10,6 +10,9 @@ from utils.Locator import Locator
 
 
 class TestTowerManager(unittest.TestCase):
+    """
+    Test for the TowerManager class.
+    """
     def setUp(self):
         super().setUp()
         self.location = Locator("47 Rue Charles Dumont, Dijon")
@@ -18,6 +21,7 @@ class TestTowerManager(unittest.TestCase):
         db_path = os.path.join(db_dir, csv_name)
         self.database = pd.read_csv(db_path, sep=";")
 
+    # Test for all the checks that the class runs
     def test_init_location_wrong(self):
         location = "ThisIsNotALocator"
         with self.assertRaises(AttributeError) as context:
@@ -56,10 +60,13 @@ class TestTowerManager(unittest.TestCase):
             "Provided networks are not in the database!",
             context.exception.args[0])
 
+    # Test for the methods
     def test_reduced_database(self):
+        # Generate a tower manager
         tower_mgr = TowerManager(self.location, database=self.database)
-        reduced_db = tower_mgr.reduced_database(area=0.005)
 
+        # Get the reduced database and the expected reduced database
+        reduced_db = tower_mgr.reduced_database(area=0.005)
         expected_data = {
                 'Operateur': [20815, 20801, 20820, 20815, 20801, 20810],
                 'Latitude': [47.3161189031995, 47.3158612131847,
@@ -74,8 +81,10 @@ class TestTowerManager(unittest.TestCase):
 
         expected_db = pd.DataFrame.from_dict(expected_data)
 
+        # Check that both DataBases are the same size
         self.assertEqual(len(reduced_db), len(expected_db))
 
+        # Check that the value of both of them is equal
         for i, index in enumerate(reduced_db.index):
             for c in reduced_db.columns:
                 self.assertEqual(expected_db.loc[i][c],
@@ -86,12 +95,14 @@ class TestTowerManager(unittest.TestCase):
         # Not needed but for speed purposes
         tower_mgr.database = tower_mgr.reduced_database()
 
+        # Get the closest tower and the expected closest towers
         tower_mgr.locate_closest_towers()
         expected_towers_indexes = {20801: 57807,
                                    20810: 57808,
                                    20820: 57771,
                                    20815: 57805}
 
+        # Check the expected and the result are the same
         self.assertEqual(expected_towers_indexes,
                          tower_mgr.tower_indexes)
 
@@ -100,7 +111,10 @@ class TestTowerManager(unittest.TestCase):
         # Not needed but for speed purposes
         tower_mgr.database = tower_mgr.reduced_database()
 
+        # Necessary previous step
         tower_mgr.locate_closest_towers()
+
+        # Get the towers coverage and the expected tower coverage
         tower_mgr.find_towers_coverage()
         expected_tower_coverage = {
             'Orange': {'2G': 'true', '3G': 'true', '4G': 'true'},
@@ -109,5 +123,7 @@ class TestTowerManager(unittest.TestCase):
             'Free': {'2G': 'false', '3G': 'true', '4G': 'true'}
         }
 
+        # Check the towers coverage and the expected towers coverage are
+        # the same
         self.assertEqual(expected_tower_coverage,
                          tower_mgr.towers_coverage)

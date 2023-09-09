@@ -6,6 +6,12 @@ class Locator:
     Class to generate a Location and ensure has the necessary parameters
     when created. Expected to have a not None address, that can be found
     by the geolocator and that is inside the coordinates of France.
+
+    Parameters:
+    -----------
+    address: (str)
+        An actual address that will be used to create a Locator. It is
+        expected to be a real address in France
     """
     def __init__(self, address):
         self.check_address_value(address)
