@@ -4,6 +4,11 @@ import pyproj
 
 csv_name = '2018_01_Sites_mobiles_2G_3G_4G_France_metropolitaine_L93.csv'
 
+operator_code = {20801: 'Orange',
+                 20810: 'SFR',
+                 20815: 'Free',
+                 20820: 'Bouygue'}
+
 
 def remove_na_values(path):
     """
