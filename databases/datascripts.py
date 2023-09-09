@@ -1,9 +1,12 @@
 import pandas as pd
 import pyproj
 
-
+# Name that will be used be default in all the class when a database is
+# needed but not provided. CSV MUST be in the same folder as this file
 csv_name = '2018_01_Sites_mobiles_2G_3G_4G_France_metropolitaine_L93.csv'
 
+# Operators that are coded. When a decoder is needed, this dict is
+# imported
 operator_code = {20801: 'Orange',
                  20810: 'SFR',
                  20815: 'Free',
