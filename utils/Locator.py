@@ -3,8 +3,8 @@ from geopy.geocoders import Nominatim
 
 class Locator:
     """
-    Class to generate a Location and ensure has the necessary parameters
-    when created. Expected to have a not None address, that can be found
+    Class to generate a Location and ensure that it has the necessary parameters
+    when created. Expected to have a non None address, that can be found
     by the geolocator and that is inside the coordinates of France.
 
     Parameters:
@@ -45,9 +45,9 @@ class Locator:
         and it is not None
         """
         if self.location is None:
-            raise AttributeError("Sorry, we weren't able to "
+            raise AttributeError("Sorry, we were not able to "
                                  "find your address, please "
-                                 "try another close one")
+                                 "try another closer one")
 
     def check_location(self):
         """

@@ -102,7 +102,7 @@ class TestTowerManager(unittest.TestCase):
                                    20820: 57771,
                                    20815: 57805}
 
-        # Check the expected and the result are the same
+        # Check that the expected and the result are the same
         self.assertEqual(expected_towers_indexes,
                          tower_mgr.tower_indexes)
 
@@ -123,7 +123,7 @@ class TestTowerManager(unittest.TestCase):
             'Free': {'2G': 'false', '3G': 'true', '4G': 'true'}
         }
 
-        # Check the towers coverage and the expected towers coverage are
-        # the same
+        # Check that the towers coverage and the expected towers
+        # coverage are the same
         self.assertEqual(expected_tower_coverage,
                          tower_mgr.towers_coverage)

@@ -8,8 +8,8 @@ app = FastAPI()
 @app.get("/JG-papernest-test")
 def get_towers_coverage(address=None):
     """
-    Main function for the API. Gets the call from the URL and process
-    the data from it
+    Main function for the API. Receives the call from the URL and
+    processes the data from it
 
     Parameters:
     -----------

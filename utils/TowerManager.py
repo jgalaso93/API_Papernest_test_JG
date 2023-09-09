@@ -20,11 +20,11 @@ class TowerManager:
     database: (pandas.DataFrame)
         A database filled with towers in a particular way. A minimal
         column check is run to ensure proper behaviour. Find more about
-        the restriction at check_database(). If none given the one
-        located on the database will be used.
+        the restrictions at check_database(). If no database is given,
+        the one located on the database directory will be used.
     network: (list of strings)
         Networks that will be found on the coverage search process. If
-        none provided, the string: ['2G', '3G', '4G'] will be used
+        none are provided, the string: ['2G', '3G', '4G'] will be used
     """
     def __init__(self, location, database=None, networks=None):
         # Check location and store it
@@ -35,7 +35,7 @@ class TowerManager:
         self.database = database
         self.check_database()
 
-        # Check and store the networks
+        # Check networks and store them
         self.networks = networks
         self.check_networks()
 
@@ -47,7 +47,7 @@ class TowerManager:
         """
         Check for the location
         """
-        # Check the location is an object from the Locator class
+        # Check that the location is an object from the Locator class
         if not isinstance(self.location, Locator):
             raise AttributeError("The location provided "
                                  "is not a Locator!")
@@ -56,7 +56,7 @@ class TowerManager:
         """
         Checks for the database
         """
-        # Check database exists, if not, provide the local one
+        # Check if database exists, if not, provide the local one
         if self.database is None:
             # CAUTION! this path is assumed to be launched only from the
             # JG_API_papernest file!
@@ -76,16 +76,16 @@ class TowerManager:
         """
         Check for the networks
         """
-        # Check networks exists, in case not, provide a usual one
+        # Check if networks exists, if not, provide a default one
         if self.networks is None:
             self.networks = ['2G', '3G', '4G']
 
-        # Check networks is a list for further use
+        # Check that networks is a list for further use
         if not isinstance(self.networks, list):
             raise AttributeError("networks provided is expected to be a"
                                  " list!")
 
-        # Check at networks are database clumns
+        # Check that networks are database columns
         if not set(self.networks).issubset(self.database.columns):
             raise AttributeError("Provided networks are not in the "
                                  "database!")
@@ -141,7 +141,7 @@ class TowerManager:
             dist_ln = self.location.longitude - row['Longitude']
             dist = sqrt((dist_lat ** 2) + (dist_ln ** 2))
 
-            # Check if distance is shorter than the previous saved
+            # Check if distance is shorter than the previous one saved
             if dist < minimums[int(row['Operateur'])][0]:
                 minimums[int(row['Operateur'])] = (dist, index)
 
@@ -154,16 +154,18 @@ class TowerManager:
         """
         Function that provides the coverage of a set of given towers
         """
-        # Dictionary to that convert 1 in true and 0 in false to avoid
+        # Dictionary to convert 1 into true and 0 into false to avoid
         # unnecessary ifs for expected output
         t_f = {1: 'true', 0: 'false'}
 
-        # Loop to find the closest tower per operator.
+        # Loop that goes through the dictionary of the closest tower
+        # of each operator.
         for operator, index in self.tower_indexes.items():
             # Create an empty dictionary for every operator
             self.towers_coverage[operator_code[operator]] = dict()
 
             # Fill those dictionaries with the networks and true or
-            # false as value depending on their coverage on the database
+            # false as a value depending on their coverage in the
+            # database
             for net in self.networks:
                 self.towers_coverage[operator_code[operator]][net] = t_f[self.database.at[index, net]]

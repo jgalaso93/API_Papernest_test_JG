@@ -1,8 +1,9 @@
 import pandas as pd
 import pyproj
 
-# Name that will be used be default in all the class when a database is
-# needed but not provided. CSV MUST be in the same folder as this file
+# Name that will be used by default in all the classes when a database
+# is needed but not provided. CSV MUST be in the same folder as this
+# file
 csv_name = '2018_01_Sites_mobiles_2G_3G_4G_France_metropolitaine_L93.csv'
 
 # Operators that are coded. When a decoder is needed, this dict is
@@ -16,12 +17,13 @@ operator_code = {20801: 'Orange',
 def remove_na_values(path):
     """
     Function created to clean and rewrite the database in case at some
-    point grows and the NA problem persists or pandas parameters fails.
+    point it grows and the NA problem persists or pandas parameters
+    fails.
 
     Parameters:
     -----------
     path: (str)
-        Path to the file where the csv is found to clean the data
+        CSV path file
     """
     data_frame = pd.read_csv(path, sep=';')
     index_to_delete = []
@@ -41,15 +43,15 @@ def remove_na_values(path):
 def lamber93_to_gps(x, y):
     """
     Function provided by the question.
-    Given two variables regard a location in lamber93 format, returns
+    Given two variables regarding a location in lamber93 format, returns
     that same location in gps latitude and longitude
 
     Parameters:
     -----------
     x: (int)
-        first value regard the location
+        first value regarding the location
     y: (int)
-        second value regard the location
+        second value regarding the location
 
     Return:
     -------
@@ -65,9 +67,9 @@ def lamber93_to_gps(x, y):
 
 def lamber93_to_gps_on_file(path):
     """
-    Functions that given a standard csv file containing location under
-    the title of 'x' and 'y', for the first and second values, change
-    them to latitude and longitude and rewrites it.
+    Function that when given a standard csv file containing location
+    under the title of 'x' and 'y', for the first and second values,
+    changes them to latitude and longitude and rewrites the csv file.
 
     Parameters:
     -----------

@@ -24,7 +24,7 @@ class TestLocator(unittest.TestCase):
 
         self.assertEqual(
             "Sorry, we weren't able to find your address, please try "
-            "another close one",
+            "another closer one",
             context.exception.args[0])
 
     def test_init_Out_of_France(self):
