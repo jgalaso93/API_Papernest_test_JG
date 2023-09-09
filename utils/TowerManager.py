@@ -39,6 +39,8 @@ class TowerManager:
         """
         # Check database exists, if not, provide the local one
         if self.database is None:
+            # CAUTION! this path is assumed to be launched only from the
+            # JG_API_papernest file!
             db_dir = os.path.join(os.getcwd(), 'databases')
             db_path = os.path.join(db_dir, csv_name)
             self.database = pd.read_csv(db_path, sep=";")
@@ -64,12 +66,17 @@ class TowerManager:
             raise AttributeError("networks provided is expected to be a"
                                  " list!")
 
+        # Check at networks are database clumns
+        if not set(self.networks).issubset(self.database.columns):
+            raise AttributeError("Provided networks are not in the "
+                                 "database!")
+
     def location_coverage(self):
         # Reduce the database to a more handleable amount
         self.database = self.reduced_database()
 
         # Find the closest towers
-        self.locate_closer_towers()
+        self.locate_closest_towers()
 
         # Find coverage of the closest towers
         self.find_towers_coverage()
@@ -96,7 +103,7 @@ class TowerManager:
         else:
             return ret
 
-    def locate_closer_towers(self):
+    def locate_closest_towers(self):
         """
         Get the database index of the closest towers for the location
         """
