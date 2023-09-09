@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-
 from utils.Locator import Locator
 from utils.TowerManager import TowerManager
 
