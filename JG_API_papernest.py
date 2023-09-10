@@ -5,35 +5,40 @@ from utils.TowerManager import TowerManager
 app = FastAPI()
 
 
-@app.get("/JG-papernest-test")
-def get_towers_coverage(address=None):
+class APIManager:
     """
-    Main function for the API. Receives the call from the URL and
-    processes the data from it
-
-    Parameters:
-    -----------
-    Address: (str)
-        An actual address that can be located
-
-    Return:
-    -------
-    In the case of an error: (str) error description
-    In any other case: (dict) Operators and their coverage
+    Manager to handle the API.
     """
-    # Let the Locator handle the location
-    try:
-        location = Locator(address)
-    except AttributeError as error:
-        return error.args[0]
+    @staticmethod
+    @app.get("/JG-papernest-test")
+    def get_towers_coverage(address=None):
+        """
+        Main function for the API. Receives the call from the URL and
+        processes the data from it
 
-    # Let the TowerManager handle the context for the location
-    try:
-        tower_mgr = TowerManager(location)
-    except AttributeError as error:
-        return error.args[0]
+        Parameters:
+        -----------
+        Address: (str)
+            An actual address that can be located
 
-    # Let the TowerManager get the coverage for the location
-    tower_mgr.location_coverage()
+        Return:
+        -------
+        In the case of an error: (str) error description
+        In any other case: (dict) Operators and their coverage
+        """
+        # Let the Locator handle the location
+        try:
+            location = Locator(address)
+        except AttributeError as error:
+            return error.args[0]
 
-    return tower_mgr.towers_coverage
+        # Let the TowerManager handle the context for the location
+        try:
+            tower_mgr = TowerManager(location)
+        except AttributeError as error:
+            return error.args[0]
+
+        # Let the TowerManager get the coverage for the location
+        tower_mgr.location_coverage()
+
+        return tower_mgr.towers_coverage
