@@ -10,7 +10,7 @@ class APIManager:
     Manager to handle the API.
     """
     @staticmethod
-    @app.get("/JG-papernest-test")
+    @app.get("/JG-papernest-API")
     def get_towers_coverage(address=None):
         """
         Main function for the API. Receives the call from the URL and

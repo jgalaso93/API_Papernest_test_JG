@@ -1,5 +1,5 @@
 import unittest
-from JG_API_papernest import APIManager
+from APIManager import APIManager
 
 
 class TestApiManager(unittest.TestCase):
